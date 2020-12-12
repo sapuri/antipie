@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
+    "@material-ui/styles": "^4.11.2",
     "@tensorflow/tfjs": "^2.7.0",
     "@tensorflow/tfjs-automl": "^1.0.0",
     "@tensorflow/tfjs-backend-wasm": "^2.7.0",
