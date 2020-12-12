@@ -12,7 +12,7 @@ const modelUrl = '/model/model.json';
 const detect = async (img: HTMLImageElement) => {
   const model = await loadObjectDetection(modelUrl);
   const options = { score: 0.5, iou: 0.5, topk: 20 };
-  return await model.detect(img, options);
+  return await model.detect(img, options).catch((e) => console.error(e));
 };
 
 const convert = async (imgUrl: string, x: number, y: number, w: number, h: number) => {
