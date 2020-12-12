@@ -2,9 +2,26 @@ import React, { FC, useState } from 'react';
 import { loadObjectDetection } from '@tensorflow/tfjs-automl';
 import '@tensorflow/tfjs-backend-cpu';
 import Jimp from 'jimp';
+import { Backdrop, CircularProgress, unstable_createMuiStrictModeTheme, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { pink } from '@material-ui/core/colors';
 import './App.css';
 
 const modelUrl = '/model/model.json';
+
+const theme = unstable_createMuiStrictModeTheme({
+  palette: {
+    type: 'dark',
+    primary: pink,
+  },
+});
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 async function detect(img: HTMLImageElement) {
   const model = await loadObjectDetection(modelUrl);
@@ -19,14 +36,9 @@ const convert = async (imgUrl: string, x: number, y: number, w: number, h: numbe
   return await j.blit(cropped, x, y, 0, 0, w, h).getBase64Async(Jimp.MIME_JPEG);
 };
 
-const spinner = (loading: boolean) => {
-  if (!loading) {
-    return null;
-  }
-  return <p>loading...</p>;
-};
-
 const App: FC = () => {
+  const classes = useStyles();
+
   const [srcImg, setSrcImg] = useState('');
   const [dstImg, setDstImg] = useState('');
   const [loading, setLoading] = useState(false);
@@ -60,8 +72,6 @@ const App: FC = () => {
     }
 
     const box = res[0].box;
-    console.log('box:', box);
-
     const converted = await convert(imgSrc, box.left, box.top, box.width, box.height).catch((e) => {
       console.error('failed to convert image:', e);
       setLoading(false);
@@ -78,21 +88,30 @@ const App: FC = () => {
   };
 
   return (
-    <div className="App">
-      <br />
-      <br />
-      <input type="file" onChange={handleChangeFile} />
-      <br />
-      <br />
-      <img src={srcImg} alt="" />
-      <br />
-      <br />
-      <button onClick={() => handleClick(srcImg)}>変換</button>
-      {spinner(loading)}
-      <br />
-      <br />
-      <img src={dstImg} alt="" />
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="App">
+        <h1>Antipie</h1>
+        <p>写真の女性器を見つけ出して自動的にモザイクをかけます</p>
+        <br />
+        <Button variant="contained" component="label">
+          画像を選択
+          <input type="file" hidden onChange={handleChangeFile} />
+        </Button>
+        <div className="photo">
+          <img src={srcImg} alt="" />
+        </div>
+        <Button variant="contained" color="primary" disabled={!srcImg} onClick={() => handleClick(srcImg)}>
+          変換
+        </Button>
+        <div className="photo">
+          <img src={dstImg} alt="" />
+        </div>
+        <Backdrop className={classes.backdrop} open={loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    </ThemeProvider>
   );
 };
 
