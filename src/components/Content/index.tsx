@@ -2,12 +2,12 @@ import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { modelUrl } from '../const';
-import { Photo } from './Photo';
-import { Backdrop } from './Backdrop';
-import { ErrorText } from './ErrorText';
-import { useDetect } from '../hooks/useDetect';
-import { useConvert } from '../hooks/useConvert';
+import { modelUrl } from '../../const';
+import { useDetect } from '../../hooks/useDetect';
+import { useConvert } from '../../hooks/useConvert';
+import { Photo } from '../Photo';
+import { Backdrop } from '../Backdrop';
+import { ErrorText } from '../ErrorText';
 
 export const Content: FC = () => {
   const [srcImg, setSrcImg] = useState('');

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { theme } from './styles/theme';
-import { Content } from './components/Content';
-import './App.css';
+import { theme } from '../../styles/theme';
+import { Content } from '../Content';
+import './index.css';
 
 const App: FC = () => {
   return (
