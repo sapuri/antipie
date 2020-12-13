@@ -1,32 +1,21 @@
 import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import { Photo } from './Photo';
-import { ErrorText } from './ErrorText';
-import { Backdrop } from './Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { loadObjectDetection } from '@tensorflow/tfjs-automl';
-import Jimp from 'jimp';
 
-const modelUrl = '/model/model.json';
-
-const detect = async (img: HTMLImageElement) => {
-  const model = await loadObjectDetection(modelUrl);
-  const options = { score: 0.5, iou: 0.5, topk: 20 };
-  return await model.detect(img, options).catch((e) => console.error(e));
-};
-
-const convert = async (imgUrl: string, x: number, y: number, w: number, h: number) => {
-  const j = await Jimp.read(imgUrl);
-  const v = await Jimp.read(imgUrl);
-  const cropped = await v.crop(x, y, w, h).scale(0.1).scale(10);
-  return await j.blit(cropped, x, y, 0, 0, w, h).getBase64Async(Jimp.MIME_JPEG);
-};
+import { modelUrl } from '../const';
+import { Photo } from './Photo';
+import { Backdrop } from './Backdrop';
+import { ErrorText } from './ErrorText';
+import { useDetect } from '../hooks/useDetect';
+import { useConvert } from '../hooks/useConvert';
 
 export const Content: FC = () => {
   const [srcImg, setSrcImg] = useState('');
   const [dstImg, setDstImg] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
+  const detect = useDetect();
+  const convert = useConvert();
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const createObjectURL = (window.URL || window.webkitURL).createObjectURL;
@@ -45,7 +34,7 @@ export const Content: FC = () => {
     const img = new Image();
     img.src = imgSrc;
 
-    const res = await detect(img).catch(() => {
+    const res = await detect(modelUrl, img).catch(() => {
       setLoading(false);
       setErrorText('検出に失敗しました');
       return;

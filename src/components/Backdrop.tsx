@@ -13,5 +13,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const Backdrop: FC<Props> = (props) => {
   const classes = useStyles();
+  if (!props.open) {
+    return null;
+  }
   return <MuiBackdrop className={classes.backdrop} {...props} />;
 };
