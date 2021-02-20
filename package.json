@@ -5,9 +5,9 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/styles": "^4.11.2",
-    "@tensorflow/tfjs": "^2.7.0",
+    "@tensorflow/tfjs": "^2.8.6",
     "@tensorflow/tfjs-automl": "^1.0.0",
-    "@tensorflow/tfjs-backend-wasm": "^2.7.0",
+    "@tensorflow/tfjs-backend-wasm": "^2.8.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -18,7 +18,7 @@
     "jimp": "^0.16.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
+    "react-scripts": "4.0.2",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
