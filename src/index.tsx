@@ -4,10 +4,10 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import * as tf from '@tensorflow/tfjs';
+import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm';
 
-// FIXME: error occurs during detection with wasm
-// setWasmPaths('/wasm/');
-
+setWasmPaths('/wasm/');
+tf.setBackend('wasm');
 tf.ready()
   .then(() => console.log('TensorFlow backend initialized:', tf.getBackend()))
   .catch((e) => console.error(e));
